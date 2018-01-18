@@ -4,9 +4,9 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Max
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 
@@ -92,6 +92,7 @@ class Experiment(models.Model):
         blank=False,
         null=False,
         related_name='experiments',
+        on_delete=models.CASCADE,
     )
     status = models.CharField(
         max_length=255,
@@ -245,7 +246,12 @@ class Experiment(models.Model):
 
 class ExperimentVariant(models.Model):
     experiment = models.ForeignKey(
-        Experiment, blank=False, null=False, related_name='variants')
+        Experiment,
+        blank=False,
+        null=False,
+        related_name='variants',
+        on_delete=models.CASCADE,
+    )
     name = models.CharField(
         max_length=255, blank=False, null=False)
     slug = models.SlugField(
@@ -278,9 +284,14 @@ class ExperimentChangeLog(models.Model):
         return timezone.now()
 
     experiment = models.ForeignKey(
-        Experiment, blank=False, null=False, related_name='changes')
+        Experiment,
+        blank=False,
+        null=False,
+        related_name='changes',
+        on_delete=models.CASCADE,
+    )
     changed_on = models.DateTimeField(default=current_datetime)
-    changed_by = models.ForeignKey(get_user_model())
+    changed_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     old_status = models.CharField(
         max_length=255,
         blank=True,

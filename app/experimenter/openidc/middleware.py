@@ -1,8 +1,9 @@
-from django.core.urlresolvers import resolve, Resolver404
 from django.conf import settings
-from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth import login
 from django.contrib.auth.models import User, Group, Permission
+from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse
+from django.urls import resolve, Resolver404
 from rest_framework.authentication import SessionAuthentication
 
 
@@ -30,6 +31,7 @@ class OpenIDCAuthMiddleware(object):
         return experimenter_group
 
     def process_request(self, request):
+        print('\n\n\nbeep\n\n\n')
         try:
             resolved = resolve(request.path)
             if resolved.url_name in settings.OPENIDC_AUTH_WHITELIST:
@@ -39,6 +41,7 @@ class OpenIDCAuthMiddleware(object):
         except Resolver404:
             pass
 
+        print('\n\n\nboop\n\n\n')
         openidc_email = request.META.get(settings.OPENIDC_EMAIL_HEADER, None)
 
         if openidc_email is None:
@@ -47,6 +50,7 @@ class OpenIDCAuthMiddleware(object):
             return HttpResponse(
                 'Please login using OpenID Connect', status=401)
 
+        print('\n\n\nbaap\n\n\n')
         try:
             user = User.objects.get(username=openidc_email)
         except User.DoesNotExist:
@@ -56,7 +60,8 @@ class OpenIDCAuthMiddleware(object):
 
             user.groups.add(self.get_experimenter_group())
 
-        request.user = user
+        print('\n\n\nlogging in\n\n\n', user, '\n\n\n')
+        login(request, user)
 
 
 class OpenIDCRestFrameworkAuthenticator(SessionAuthentication):

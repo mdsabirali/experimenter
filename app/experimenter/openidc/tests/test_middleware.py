@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.models import User, Group
-from django.core.urlresolvers import Resolver404
+from django.urls import Resolver404
 from django.test import TestCase
 
 import mock
@@ -74,7 +74,7 @@ class OpenIDCAuthMiddlewareTests(TestCase):
     def test_user_created_with_correct_email_from_header(self):
         user_email = 'user@example.com'
 
-        request = mock.Mock()
+        request = mock.MagicMock()
         request.META = {
             settings.OPENIDC_EMAIL_HEADER: user_email,
         }

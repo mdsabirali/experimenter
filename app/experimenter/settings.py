@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'experimenter.projects',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
@@ -73,7 +73,7 @@ MIDDLEWARE_CLASSES = [
 
     'dockerflow.django.middleware.DockerflowMiddleware',
 
-    'experimenter.openidc.middleware.OpenIDCAuthMiddleware',
+    #'experimenter.openidc.middleware.OpenIDCAuthMiddleware',
 ]
 
 ROOT_URLCONF = 'experimenter.urls'

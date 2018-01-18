@@ -1,8 +1,8 @@
-Django==1.11
+Django==2.0
 coverage==4.3.4
 django-cors-headers==2.1.0
 django-filter==1.0.4
-djangorestframework==3.6.2
+djangorestframework==3.7.7
 dockerflow==2017.4.0
 factory-boy==2.8.1
 flake8==3.2.1
