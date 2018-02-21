@@ -8,11 +8,11 @@
 {% block content %}
   <div id="content-header" class="row">
     <div class="col-md-8">
-      <a href="{% url "projects-detail" slug=object.project.slug %}">
+      <a class="noanchorstyle" href="{% url "projects-detail" slug=object.project.slug %}">
         {{ object.project.name }}
       </a>
       <span class="light-text">/</span>
-      <a class="light-text spaced-text" href="{% url "experiments-detail" slug=experiment.slug %}">
+      <a class="noanchorstyle light-text spaced-text" href="{% url "experiments-detail" slug=experiment.slug %}">
         {{ object.name }}
       </a>
     </div>

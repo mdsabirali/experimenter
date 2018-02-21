@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2 card">
+      <form 
+        class="form-horizontal card-content" 
+        method="POST" 
+        enctype='multipart/form-data'
+      >
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-group">
+          <div class="col-md-12">
+            {% if object %}
+              <h3>Edit {{ object.name }}</h3>
+            {% else %}
+              <h3>New Experiment</h3>
+            {% endif %}
+          </div>
+        </div>
+        <div class="form-group {% if form.errors.name %}has-error{% endif %}">
+          <label class="col-md-2 control-label" for="{{ form.name.id_for_label }}">Name</label>
+          <div class="col-md-10">
+            {{ form.name }}
+          </div>
+          {% if form.errors.name %}
+            <div class="col-md-12 text-right">
+              {% for error in form.errors.name %}
+                <label for="{{ form.name.id_for_label }}" class="control-label">{{ error }}</label> 
+              {% endfor %}
+            </div>
+          {% endif %}
+          <div class="col-md-10 col-md-offset-2 text-right">
+            <a href="#name-help" data-toggle="collapse" aria-expanded="false" aria-controls="name-help">Help</a>
+          </div>
+          <div id="name-help" class="collapse col-md-10 col-md-offset-2 help-block">
+            {{ form.name.help_text|safe }}
+          </div>
+        </div>
+        <div class="form-group {% if form.errors.short_description %}has-error{% endif %}">
+          <label class="col-md-2 control-label" for="{{ form.short_description.id_for_label }}">Short Description</label>
+          <div class="col-md-10">
+            {{ form.short_description }}
+          </div>
+          {% if form.errors.short_description %}
+            <div class="col-md-12 text-right">
+              {% for error in form.errors.short_description %}
+                <label for="experiment-short_description" class="control-label">{{ error }}</label> 
+              {% endfor %}
+            </div>
+          {% endif %}
+          <div class="col-md-10 col-md-offset-2 text-right">
+            <a href="#short-description-help" data-toggle="collapse" aria-expanded="false" aria-controls="short-description-help">Help</a>
+          </div>
+          <div id="short-description-help" class="collapse col-md-10 col-md-offset-2 help-block">
+            {{ form.short_description.help_text|safe }}
+          </div>
+        </div>
+        <div class="form-group experiment-form-population-percent">
+          <label class="col-md-2 control-label">Population Size</label>
+          <div class="col-md-2">
+            {{ form.population_percent }} 
+          </div>
+          <div class="col-md-2">
+            <h5>% of Firefox</h5>
+          </div>
+          <div class="col-md-3">
+            {{ form.firefox_version }}
+          </div>
+          <div class="col-md-3">
+            {{ form.firefox_channel }}
+          </div>
+          <div class="col-md-10 col-md-offset-2 text-right">
+            <a href="#population-percent-help" data-toggle="collapse" aria-expanded="false" aria-controls="population-percent-help">Help</a>
+          </div>
+          <div id="population-percent-help" class="collapse col-md-10 col-md-offset-2 help-block">
+            {{ form.population_percent.help_text|safe }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label">Population Filtering</label>
+          <div class="col-md-10">
+            {{ form.client_matching }}
+          </div>
+          <div class="col-md-10 col-md-offset-2 text-right">
+            <a href="#client-matching-help" data-toggle="collapse" aria-expanded="false" aria-controls="client-matching-help">Help</a>
+          </div>
+          <div id="client-matching-help" class="collapse col-md-10 col-md-offset-2 help-block">
+            {{ form.client_matching.help_text|safe }}
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-info">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
